@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>github actions 自动部署 hexo</title>
-    <url>/2020/08/06/github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-hexo/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>next主题文章列表 显示摘要</title>
     <url>/2020/08/05/My-New-Post/</url>
     <content><![CDATA[<p>本文针对Next主题，不确保对于其它主题有效（但从修改模式来看，是有效的）</p>
@@ -33,27 +28,32 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo 的基础使用</title>
-    <url>/2020/08/04/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+    <title>github actions 自动部署 hexo</title>
+    <url>/2020/08/06/github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-hexo/</url>
+    <content><![CDATA[<p>github actions 自动部署 hexo,感觉还是有点问题。有很多方法可以解决，但是我这里就不折腾了。</p>
 <a id="more"></a>
 
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>我自己的提问：<a href="https://github.com/JamesIves/github-pages-deploy-action/issues/389">https://github.com/JamesIves/github-pages-deploy-action/issues/389</a></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>hexo 安装 需要全局，但是没有权限无法安装。可以利用docker安装 ，解决权限问题。</p>
+<p>但是新版本的 action，作者去掉了docker，鼓励本地直接构建，然后直接同步。</p>
+<p><strong>而且同步到其他仓库的功能在新的版本里才可以使用</strong></p>
+<p>最后我已使用了本地构建这个方案。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">buildAndDeploy</span></span><br><span class="line"><span class="attr">on:</span> [<span class="string">push</span>]</span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build-and-deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">          <span class="attr">persist-credentials:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@3.5.9</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu.github.io</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span> </span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h3 id="骚操作"><a href="#骚操作" class="headerlink" title="骚操作"></a>骚操作</h3><p>中途我也想了骚操作，例如用以前的版本，来构建，再用新的版本来部署。</p>
+<p><strong>因为同步到其他仓库的功能在新的版本里才可以使用</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">buildAndDeploy</span></span><br><span class="line"><span class="attr">on:</span> [<span class="string">push</span>]</span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build-and-deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">          <span class="attr">persist-credentials:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">build</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@releases/v2</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu/private-blog-deploy-actions</span></span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">gh-pages</span></span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span></span><br><span class="line">        <span class="attr">BUILD_SCRIPT:</span>  <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-cli</span> <span class="string">-g</span> <span class="string">&amp;&amp;</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">clean</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">g</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@3.5.9</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu.github.io</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span> </span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
       <categories>
         <category>博客搭建</category>
       </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>github-action</tag>
+      </tags>
   </entry>
   <entry>
     <title>grpc 之 word2pdf使用</title>
@@ -103,6 +103,29 @@
       <tags>
         <tag>grpc</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>hexo 的基础使用</title>
+    <url>/2020/08/04/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<a id="more"></a>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
   </entry>
   <entry>
     <title>hexo next主题 安装记录</title>
