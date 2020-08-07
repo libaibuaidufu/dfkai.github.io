@@ -28,6 +28,36 @@
       </tags>
   </entry>
   <entry>
+    <title>github actions 自动部署 hexo</title>
+    <url>/2020/08/06/github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-hexo/</url>
+    <content><![CDATA[<p>github actions 自动部署 hexo,感觉还是有点问题。有很多方法可以解决，但是我这里就不折腾了。</p>
+<a id="more"></a>
+
+<p>我自己的提问：<a href="https://github.com/JamesIves/github-pages-deploy-action/issues/389">https://github.com/JamesIves/github-pages-deploy-action/issues/389</a></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>hexo 安装 需要全局，但是没有权限无法安装。可以利用docker安装 ，解决权限问题。</p>
+<p>但是新版本的 action，作者去掉了docker，鼓励本地直接构建，然后直接同步。</p>
+<p><strong>而且同步到其他仓库的功能在新的版本里才可以使用</strong></p>
+<p>最后我已使用了本地构建这个方案。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">buildAndDeploy</span></span><br><span class="line"><span class="attr">on:</span> [<span class="string">push</span>]</span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build-and-deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">          <span class="attr">persist-credentials:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@3.5.9</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu.github.io</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="骚操作"><a href="#骚操作" class="headerlink" title="骚操作"></a>骚操作</h3><p>中途我也想了骚操作，例如用以前的版本，来构建，再用新的版本来部署。最后出现了权限问题。就没有继续了。</p>
+<p><strong>因为同步到其他仓库的功能在新的版本里才可以使用</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">buildAndDeploy</span></span><br><span class="line"><span class="attr">on:</span> [<span class="string">push</span>]</span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build-and-deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">          <span class="attr">persist-credentials:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">build</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@releases/v2</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu/private-blog-deploy-actions</span></span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">gh-pages</span></span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span></span><br><span class="line">        <span class="attr">BUILD_SCRIPT:</span>  <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-cli</span> <span class="string">-g</span> <span class="string">&amp;&amp;</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">clean</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">g</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@3.5.9</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu.github.io</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="windows-bat-命令"><a href="#windows-bat-命令" class="headerlink" title="windows bat 命令"></a>windows bat 命令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cls</span><br><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> 清理中。。。</span><br><span class="line">call hexo clean </span><br><span class="line"><span class="built_in">echo</span> 重新构建。。。</span><br><span class="line">call hexo g </span><br><span class="line"><span class="built_in">echo</span> 添加新的修改。。。</span><br><span class="line">call git add . </span><br><span class="line"><span class="built_in">set</span> /p commit_message=提交内容：</span><br><span class="line"><span class="built_in">echo</span> 提交新的修改</span><br><span class="line">call git commit -m %commit_message%</span><br><span class="line"><span class="built_in">echo</span> 推送新的修改</span><br><span class="line">call git push -u origin master</span><br><span class="line"><span class="built_in">echo</span> 已完成</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>github-action</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>grpc 之 word2pdf使用</title>
     <url>/2020/08/05/grpc-%E4%B9%8B-word2pdf%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<blockquote>
@@ -74,36 +104,6 @@
       </categories>
       <tags>
         <tag>grpc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>github actions 自动部署 hexo</title>
-    <url>/2020/08/06/github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-hexo/</url>
-    <content><![CDATA[<p>github actions 自动部署 hexo,感觉还是有点问题。有很多方法可以解决，但是我这里就不折腾了。</p>
-<a id="more"></a>
-
-<p>我自己的提问：<a href="https://github.com/JamesIves/github-pages-deploy-action/issues/389">https://github.com/JamesIves/github-pages-deploy-action/issues/389</a></p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>hexo 安装 需要全局，但是没有权限无法安装。可以利用docker安装 ，解决权限问题。</p>
-<p>但是新版本的 action，作者去掉了docker，鼓励本地直接构建，然后直接同步。</p>
-<p><strong>而且同步到其他仓库的功能在新的版本里才可以使用</strong></p>
-<p>最后我已使用了本地构建这个方案。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">buildAndDeploy</span></span><br><span class="line"><span class="attr">on:</span> [<span class="string">push</span>]</span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build-and-deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">          <span class="attr">persist-credentials:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@3.5.9</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu.github.io</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span> </span><br></pre></td></tr></table></figure>
-
-<h3 id="骚操作"><a href="#骚操作" class="headerlink" title="骚操作"></a>骚操作</h3><p>中途我也想了骚操作，例如用以前的版本，来构建，再用新的版本来部署。最后出现了权限问题。就没有继续了。</p>
-<p><strong>因为同步到其他仓库的功能在新的版本里才可以使用</strong></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">buildAndDeploy</span></span><br><span class="line"><span class="attr">on:</span> [<span class="string">push</span>]</span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build-and-deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">          <span class="attr">persist-credentials:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">build</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@releases/v2</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu/private-blog-deploy-actions</span></span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">gh-pages</span></span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span></span><br><span class="line">        <span class="attr">BUILD_SCRIPT:</span>  <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-cli</span> <span class="string">-g</span> <span class="string">&amp;&amp;</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">clean</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">g</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@3.5.9</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">ACCESS_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REPOSITORY_NAME:</span> <span class="string">libaibuaidufu/libaibuaidufu.github.io</span></span><br><span class="line">        <span class="attr">BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">BASE_BRANCH:</span> <span class="string">master</span> </span><br><span class="line">        <span class="attr">FOLDER:</span> <span class="string">public</span> </span><br></pre></td></tr></table></figure>
-
-<h3 id="windows-bat-命令"><a href="#windows-bat-命令" class="headerlink" title="windows bat 命令"></a>windows bat 命令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cls</span><br><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> 清理中。。。</span><br><span class="line">call hexo clean </span><br><span class="line"><span class="built_in">echo</span> 重新构建。。。</span><br><span class="line">call hexo g </span><br><span class="line"><span class="built_in">echo</span> 添加新的修改。。。</span><br><span class="line">call git add . </span><br><span class="line"><span class="built_in">set</span> /p commit_message=提交内容：</span><br><span class="line"><span class="built_in">echo</span> 提交新的修改</span><br><span class="line">call git commit -m %commit_message%</span><br><span class="line"><span class="built_in">echo</span> 推送新的修改</span><br><span class="line">call git push -u origin master</span><br><span class="line"><span class="built_in">echo</span> 已完成</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>github-action</tag>
       </tags>
   </entry>
   <entry>
@@ -163,6 +163,65 @@
       <tags>
         <tag>hexo</tag>
         <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>scrapy + scrapyd + scrapydweb + logparser + docker分布式部署</title>
+    <url>/2020/08/07/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h5 id="1-构建-scrapyd-logparser"><a href="#1-构建-scrapyd-logparser" class="headerlink" title="1.构建 scrapyd_logparser"></a>1.构建 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapyd_logparser</span><br><span class="line">docker build -t scrapyd_logparser .</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-运行-scrapyd-logparser"><a href="#2-运行-scrapyd-logparser" class="headerlink" title="2.运行 scrapyd_logparser"></a>2.运行 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 6800:6800 --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># docker run -d -p 6800:6800 -v &#x2F;root&#x2F;scrapyd_logparser:&#x2F;code --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># 可以外联出文件 可以进行配置修改</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-构建-scrapydweb"><a href="#3-构建-scrapydweb" class="headerlink" title="3.构建 scrapydweb"></a>3.构建 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapydweb</span><br><span class="line">docker build -t scrapydweb .</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-运行-scrapydweb"><a href="#4-运行-scrapydweb" class="headerlink" title="4.运行 scrapydweb"></a>4.运行 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 5000:5000 -v &#x2F;root&#x2F;scrapydweb:&#x2F;code --name scrapydweb scrapydweb</span><br><span class="line"># 外链出文件 好修改配置 进行更新部署</span><br><span class="line"># 修改配置</span><br><span class="line">vim scrapydweb_settings_v10.py </span><br><span class="line"># 重启</span><br><span class="line">docker restart scrapydweb</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-多机部署"><a href="#5-多机部署" class="headerlink" title="5.多机部署"></a>5.多机部署</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在其他机器中 部署 文件 执行 1，2 步</span><br><span class="line">同时在 scrapydweb 的配置文件 添加在 新主机的ip</span><br><span class="line"></span><br><span class="line"># 以下添加</span><br><span class="line">SCRAPYD_SERVERS &#x3D; [</span><br><span class="line">    &#39;192.168.5.131:6800&#39;,</span><br><span class="line">    &#39;192.168.5.131:6805&#39;,</span><br><span class="line">    # &#39;username:password@localhost:6801#group&#39;,</span><br><span class="line">    # (&#39;username&#39;, &#39;password&#39;, &#39;localhost&#39;, &#39;6801&#39;, &#39;group&#39;),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>源码</strong>: <a href="https://github.com/libaibuaidufu/scrapyd_web_log">https://github.com/libaibuaidufu/scrapyd_web_log</a><br><strong>注</strong>： 可以自己查看 一下 scrapydweb 配置文件 修改，和 scrapyd 配置文件修改</p>
+<p>参考：</p>
+<ol>
+<li><a href="https://github.com/my8100/scrapydweb">scrapydweb</a></li>
+<li><a href="https://github.com/my8100/logparser">logparser</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>代码来了</category>
+      </categories>
+      <tags>
+        <tag>scrapy</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>scrapy+scrapyd 部署使用</title>
+    <url>/2020/08/07/scrapy-scrapyd-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="scrapyd-部署"><a href="#scrapyd-部署" class="headerlink" title="scrapyd 部署"></a>scrapyd 部署</h3><p><strong>注</strong>：example 为项目名称</p>
+<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install scrapyd <span class="comment"># 快速部署爬虫 服务端</span></span><br><span class="line">pip install scrapyd-client <span class="comment"># 快速部署爬虫 客户端</span></span><br><span class="line">pip install scrapyd-api <span class="comment"># 集成python可调用api</span></span><br><span class="line">pip install scrapydweb <span class="comment"># web页面</span></span><br><span class="line">pip install logparser <span class="comment"># 日志解析</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="启动-scrapyd"><a href="#启动-scrapyd" class="headerlink" title="启动 scrapyd"></a>启动 scrapyd</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scrapyd -p example</span><br></pre></td></tr></table></figure>
+
+<h5 id="部署-爬虫"><a href="#部署-爬虫" class="headerlink" title="部署 爬虫"></a>部署 爬虫</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scrapyd-deploy -p example</span><br><span class="line"></span><br><span class="line">scrapyd-deploy &lt;target&gt; -p example</span><br></pre></td></tr></table></figure>
+
+<h5 id="添加爬虫"><a href="#添加爬虫" class="headerlink" title="添加爬虫"></a>添加爬虫</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl http://localhost:6800/schedule.json -d project=example -d spider=dongtan</span><br></pre></td></tr></table></figure>
+
+<h5 id="取消爬虫"><a href="#取消爬虫" class="headerlink" title="取消爬虫"></a>取消爬虫</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl http://localhost:6800/cancel.json -d project=example -d job=68d25db0506111e9a4c0e2df1c2eb35b</span><br><span class="line"><span class="comment"># job 为可在web查看</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="启动scrapyweb"><a href="#启动scrapyweb" class="headerlink" title="启动scrapyweb"></a>启动scrapyweb</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第一次运行 一下命令 生成一个配置文件 scrapydweb_settings_v10.py</span></span><br><span class="line">scrapydweb </span><br><span class="line"><span class="comment"># 第二次运行 则进行运行 同目录下</span></span><br><span class="line">scrapydweb </span><br></pre></td></tr></table></figure>
+
+<h5 id="启动logparser"><a href="#启动logparser" class="headerlink" title="启动logparser"></a>启动logparser</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改 scrapydweb_settings_v10.py 一下为Ture 会自动生成 stats.json 在日志目录下，可以重启一下scrapydweb</span></span><br><span class="line">ENABLE_LOGPARSER = True</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后运行 就可以了</span></span><br><span class="line">logparser </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="scrapy-cfg"><a href="#scrapy-cfg" class="headerlink" title="scrapy.cfg"></a>scrapy.cfg</h5><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line">[<span class="string">settings</span>]</span><br><span class="line"><span class="string">default</span> <span class="string">=</span> <span class="string">example.settings</span></span><br><span class="line">[<span class="string">deploy</span>]</span><br><span class="line"><span class="string">url</span> <span class="string">=</span> <span class="string">http://localhost:6800/</span></span><br><span class="line"><span class="string">project</span> <span class="string">=</span> <span class="string">example</span></span><br><span class="line">[<span class="string">deploy:djwq</span>]</span><br><span class="line"><span class="string">url</span> <span class="string">=</span> <span class="string">http://localhost:2100/</span></span><br><span class="line"><span class="string">project</span> <span class="string">=</span> <span class="string">example</span></span><br><span class="line"><span class="comment"># scrapyd-deploy -p example</span></span><br><span class="line"><span class="comment"># scrapyd-deploy djwq -p example</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>源码地址：<a href="https://github.com/libaibuaidufu/scrapyd_web_log">https://github.com/libaibuaidufu/scrapyd_web_log</a></p>
+]]></content>
+      <categories>
+        <category>代码来了</category>
+      </categories>
+      <tags>
+        <tag>scrapy</tag>
+        <tag>scrapyd</tag>
       </tags>
   </entry>
   <entry>
