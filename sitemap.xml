@@ -116,6 +116,13 @@
   </url>
   
   <url>
+    <loc>https://libaibuaidufu.club/tags/grpc/</loc>
+    <lastmod>2020-08-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://libaibuaidufu.club/tags/flask/</loc>
     <lastmod>2020-08-11</lastmod>
     <changefreq>daily</changefreq>
@@ -137,13 +144,6 @@
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/tags/grpc/</loc>
-    <lastmod>2020-08-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://libaibuaidufu.club/tags/scrapy/</loc>
     <lastmod>2020-08-11</lastmod>
     <changefreq>daily</changefreq>
@@ -158,14 +158,14 @@
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/tags/scrapyd/</loc>
+    <loc>https://libaibuaidufu.club/tags/selenium/</loc>
     <lastmod>2020-08-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/tags/selenium/</loc>
+    <loc>https://libaibuaidufu.club/tags/scrapyd/</loc>
     <lastmod>2020-08-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
