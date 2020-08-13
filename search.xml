@@ -28,6 +28,47 @@
       </tags>
   </entry>
   <entry>
+    <title>flask源码分析(一)</title>
+    <url>/post/flask%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E4%B8%80.html</url>
+    <content><![CDATA[<h1 id="flask-源码分析（一）"><a href="#flask-源码分析（一）" class="headerlink" title="flask 源码分析（一）"></a>flask 源码分析（一）</h1><p>对于flask源码，已经看过几次，每次都是看了忘，忘了看，这次就好生记录一下。也算是认真学习。</p>
+<a id="more"></a>
+
+<h2 id="Flask-class"><a href="#Flask-class" class="headerlink" title="Flask class"></a>Flask class</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br></pre></td></tr></table></figure>
+
+<p>一般 我们都是这样开头的，那我们就 从最开始的 <code>__name__</code> 开始介绍。</p>
+<h3 id="Flask-的一个参数-name"><a href="#Flask-的一个参数-name" class="headerlink" title="Flask 的一个参数 __name__"></a>Flask 的一个参数 <code>__name__</code></h3><p>通过进入源码了解到：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">admonition:: About the First Parameter</span><br><span class="line">        The idea of the first parameter is to give Flask an idea of what</span><br><span class="line">        belongs to your application.  This name is used to find resources</span><br><span class="line">        on the filesystem, can be used by extensions to improve debugging</span><br><span class="line">        information and a lot more.</span><br><span class="line"></span><br><span class="line">        So it&#39;s important what you provide there.  If you are using a single</span><br><span class="line">        module, &#96;__name__&#96; is always the correct value.  If you however are</span><br><span class="line">        using a package, it&#39;s usually recommended to hardcode the name of</span><br><span class="line">        your package there.</span><br><span class="line"></span><br><span class="line">        For example if your application is defined in :file:&#96;yourapplication&#x2F;app.py&#96;</span><br><span class="line">        you should create it with one of the two versions below::</span><br><span class="line"></span><br><span class="line">            app &#x3D; Flask(&#39;yourapplication&#39;)</span><br><span class="line">            app &#x3D; Flask(__name__.split(&#39;.&#39;)[0])</span><br><span class="line"></span><br><span class="line">        Why is that?  The application will work even with &#96;__name__&#96;, thanks</span><br><span class="line">        to how resources are looked up.  However it will make debugging more</span><br><span class="line">        painful.  Certain extensions can make assumptions based on the</span><br><span class="line">        import name of your application.  For example the Flask-SQLAlchemy</span><br><span class="line">        extension will look for the code in your application that triggered</span><br><span class="line">        an SQL query in debug mode.  If the import name is not properly set</span><br><span class="line">        up, that debugging information is lost.  (For example it would only</span><br><span class="line">        pick up SQL queries in &#96;yourapplication.app&#96; and not</span><br><span class="line">        &#96;yourapplication.views.frontend&#96;)</span><br><span class="line">##### 谷歌翻译</span><br><span class="line">告诫：：关于第一个参数</span><br><span class="line"></span><br><span class="line">        第一个参数的想法是让Flask了解属于您的应用程序。此名称用于查找资源在文件系统上，扩展可以使用它来改进调试信息等等。</span><br><span class="line"></span><br><span class="line">        因此，您在此处提供的内容很重要。如果您使用单个在模块中，“ __ name__”始终是正确的值。如果你是使用软件包，通常建议对代码名称进行硬编码您的包裹在那里。</span><br><span class="line"></span><br><span class="line">        例如，如果您的应用程序是在：file：&#96;yourapplication &#x2F; app.py&#96;中定义的</span><br><span class="line">        您应该使用以下两个版本之一创建它：：</span><br><span class="line">            app &#x3D; Flask(&#39;yourapplication&#39;)</span><br><span class="line">            app &#x3D; Flask(__name__.split(&#39;.&#39;)[0])</span><br><span class="line"></span><br><span class="line">        这是为什么？由于如何查找资源，该应用程序甚至可以与“ __name__”一起使用。但是，这会使调试更加痛苦。某些扩展可以根据您的应用程序的导入名称进行假设。例如，Flask-SQLAlchemy扩展将在您的应用程序中查找在调试模式下触发SQL查询的代码。如果导入名称设置不正确，则该调试信息将丢失。 （例如，它将仅在&#96;yourapplication.app&#96;中而不是&#96;yourapplication.views.frontend&#96;中拾取SQL查询。）</span><br></pre></td></tr></table></figure>
+
+<h4 id="第一个参数-单模块"><a href="#第一个参数-单模块" class="headerlink" title="第一个参数 单模块"></a>第一个参数 单模块</h4><p>如果只是使用单模块，那么使用<code>__name__</code> 总是对的。</p>
+<p>什么是单模块就是一个文件搞定所有。</p>
+<h4 id="第一个参数-多内容"><a href="#第一个参数-多内容" class="headerlink" title="第一个参数 多内容"></a>第一个参数 多内容</h4><p>目录结构是：<br>├─.idea<br>│  └─inspectionProfiles<br>├─to_the_world_package<br>│  ├─static<br>│  └─templates<br>└─<strong>pycache</strong></p>
+<p>file: <code>to_the_world_package/to-the-world.py</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template</span><br><span class="line"><span class="keyword">from</span> flask.helpers <span class="keyword">import</span> get_root_path</span><br><span class="line"><span class="keyword">from</span> .hello <span class="keyword">import</span> data</span><br><span class="line"></span><br><span class="line">print(__name__)</span><br><span class="line">app = Flask(<span class="string">&quot;to_the_world_package&quot;</span>)</span><br><span class="line"><span class="comment"># app = Flask(__name__.split(&quot;.&quot;)[0])</span></span><br><span class="line"><span class="comment"># app = Flask(__name__)</span></span><br><span class="line"></span><br><span class="line">print(app.import_name)</span><br><span class="line">print(app.template_folder)</span><br><span class="line">print(app.root_path)</span><br><span class="line">import_name = <span class="string">&quot;to_the_world_package&quot;</span></span><br><span class="line">mod = sys.modules.get(import_name)</span><br><span class="line">print(mod.__file__)</span><br><span class="line">print(os.path.abspath(mod.__file__))</span><br><span class="line">print(os.path.dirname(os.path.abspath(mod.__file__)))</span><br><span class="line"></span><br><span class="line">import_name = <span class="string">&quot;to_the_world_package.to-the-world&quot;</span></span><br><span class="line">mod = sys.modules.get(import_name)</span><br><span class="line">print(mod.__file__)</span><br><span class="line">print(os.path.abspath(mod.__file__))</span><br><span class="line">print(os.path.dirname(os.path.abspath(mod.__file__)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(&quot;/&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    print(data)</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># app.run(debug=True, host=&#x27;0.0.0.0&#x27;, port=8080)</span></span><br><span class="line">    app.run(debug=<span class="literal">True</span>, port=<span class="number">8080</span>)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">to_the_world_package.to-the-world</span></span><br><span class="line"><span class="string">to_the_world_package.to-the-world</span></span><br><span class="line"><span class="string">templates</span></span><br><span class="line"><span class="string">C:\Users\libai\dfk-common\日常\flask-rbac\to_the_world_package</span></span><br><span class="line"><span class="string"># import_name = &quot;to_the_world_package&quot;</span></span><br><span class="line"><span class="string">C:\Users\libai\dfk-common\日常\flask-rbac\to_the_world_package\__init__.py</span></span><br><span class="line"><span class="string">C:\Users\libai\dfk-common\日常\flask-rbac\to_the_world_package\__init__.py</span></span><br><span class="line"><span class="string">C:\Users\libai\dfk-common\日常\flask-rbac\to_the_world_package</span></span><br><span class="line"><span class="string"># import_name = &quot;to_the_world_package.to-the-world&quot;</span></span><br><span class="line"><span class="string">C:\Users\libai\dfk-common\日常\flask-rbac\to_the_world_package\to-the-world.py</span></span><br><span class="line"><span class="string">C:\Users\libai\dfk-common\日常\flask-rbac\to_the_world_package\to-the-world.py</span></span><br><span class="line"><span class="string">C:\Users\libai\dfk-common\日常\flask-rbac\to_the_world_package</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>从这里来看 无论使用  <code>__name__</code>  还是 packeage_name 还是 <code>__name__.split(&quot;.&quot;)[0]</code> 都可以，因为</p>
+<p><code>get_root_path</code>方法 会把root_path给改回来。</p>
+<p><strong>Flask 的第一个参数 主要是 为了 让Flask找文件位置，就是找到所谓的root_path，然后就可以找到root_path下的文件，例如 static 或者 templates,如果root_path位置不对，就会无法使用 static 或者 templates，因此可以自己设定位置,设定 static_folder，template_folder，或者直接设置root_path</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">    self,</span></span></span><br><span class="line"><span class="function"><span class="params">    import_name,</span></span></span><br><span class="line"><span class="function"><span class="params">    static_url_path=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    static_folder=<span class="string">&quot;static&quot;</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    static_host=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    host_matching=False,</span></span></span><br><span class="line"><span class="function"><span class="params">    subdomain_matching=False,</span></span></span><br><span class="line"><span class="function"><span class="params">    template_folder=<span class="string">&quot;templates&quot;</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    instance_path=None,</span></span></span><br><span class="line"><span class="function"><span class="params">    instance_relative_config=False,</span></span></span><br><span class="line"><span class="function"><span class="params">    root_path=None,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>):</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="这里写一个真实的"><a href="#这里写一个真实的" class="headerlink" title="这里写一个真实的"></a>这里写一个真实的</h4><p>目录精简下来：</p>
+<p>app:</p>
+<p>├─.idea<br>│  └─inspectionProfiles<br>├─config<br>│  └─config.py<br>├─controllers<br>│  ├─app<br>│  ├─impl<br>│  ├─web<br>│  └─wx<br>├─log<br>├─models<br>├─static<br>│  └─dept_img<br>└─Main.py</p>
+<p>我们在config目录下的 config.py中进行了配置，但是在主目录下Main.py进行注册启动。</p>
+<p>因此 我们config下的config.py中如何写 Flask呢？</p>
+<p>我去看看了以前的</p>
+<h5 id="以前我们是设定template-folder-和-static-folder"><a href="#以前我们是设定template-folder-和-static-folder" class="headerlink" title="以前我们是设定template_folder 和 static_folder"></a>以前我们是设定template_folder 和 static_folder</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">app = Flask(__name__, template_folder=<span class="string">&#x27;../templates&#x27;</span>, 和 static_folder=<span class="string">&quot;../static&quot;</span>, static_url_path=<span class="string">&quot;/static&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="现在我们知道第一个参数的意义，那我们可以直接这样写就可以了"><a href="#现在我们知道第一个参数的意义，那我们可以直接这样写就可以了" class="headerlink" title="现在我们知道第一个参数的意义，那我们可以直接这样写就可以了"></a>现在我们知道第一个参数的意义，那我们可以直接这样写就可以了</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(__name__)</span><br><span class="line">app = Flask(<span class="string">&quot;app&quot;</span>)</span><br><span class="line">print(app.root_path)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">config.config</span></span><br><span class="line"><span class="string">I:\libaibuaidufu\app</span></span><br><span class="line"><span class="string">此时的app，root_path 就是对的。</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>flask</category>
+      </categories>
+      <tags>
+        <tag>flask</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>flask rbac 设计</title>
     <url>/post/flask-rbac-%E8%AE%BE%E8%AE%A1.html</url>
     <content><![CDATA[<p>一直对rbac设计有点不确定，看了一些文章对他有一定的了解，因此也想动手写一写。</p>
@@ -53,6 +94,29 @@
         <tag>flask</tag>
         <tag>rbac</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>hexo 的基础使用</title>
+    <url>/post/hello-world.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<a id="more"></a>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
   </entry>
   <entry>
     <title>github actions 自动部署 hexo</title>
@@ -82,6 +146,36 @@
       <tags>
         <tag>hexo</tag>
         <tag>github-action</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>scrapy + scrapyd + scrapydweb + logparser + docker分布式部署</title>
+    <url>/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html</url>
+    <content><![CDATA[<p>在工作中使用，特此在这记录一下，并写成docker文件，方便部署使用。</p>
+<a id="more"></a>
+
+<h5 id="1-构建-scrapyd-logparser"><a href="#1-构建-scrapyd-logparser" class="headerlink" title="1.构建 scrapyd_logparser"></a>1.构建 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapyd_logparser</span><br><span class="line">docker build -t scrapyd_logparser .</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-运行-scrapyd-logparser"><a href="#2-运行-scrapyd-logparser" class="headerlink" title="2.运行 scrapyd_logparser"></a>2.运行 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 6800:6800 --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># docker run -d -p 6800:6800 -v &#x2F;root&#x2F;scrapyd_logparser:&#x2F;code --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># 可以外联出文件 可以进行配置修改</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-构建-scrapydweb"><a href="#3-构建-scrapydweb" class="headerlink" title="3.构建 scrapydweb"></a>3.构建 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapydweb</span><br><span class="line">docker build -t scrapydweb .</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-运行-scrapydweb"><a href="#4-运行-scrapydweb" class="headerlink" title="4.运行 scrapydweb"></a>4.运行 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 5000:5000 -v &#x2F;root&#x2F;scrapydweb:&#x2F;code --name scrapydweb scrapydweb</span><br><span class="line"># 外链出文件 好修改配置 进行更新部署</span><br><span class="line"># 修改配置</span><br><span class="line">vim scrapydweb_settings_v10.py </span><br><span class="line"># 重启</span><br><span class="line">docker restart scrapydweb</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-多机部署"><a href="#5-多机部署" class="headerlink" title="5.多机部署"></a>5.多机部署</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在其他机器中 部署 文件 执行 1，2 步</span><br><span class="line">同时在 scrapydweb 的配置文件 添加在 新主机的ip</span><br><span class="line"></span><br><span class="line"># 以下添加</span><br><span class="line">SCRAPYD_SERVERS &#x3D; [</span><br><span class="line">    &#39;192.168.5.131:6800&#39;,</span><br><span class="line">    &#39;192.168.5.131:6805&#39;,</span><br><span class="line">    # &#39;username:password@localhost:6801#group&#39;,</span><br><span class="line">    # (&#39;username&#39;, &#39;password&#39;, &#39;localhost&#39;, &#39;6801&#39;, &#39;group&#39;),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>源码</strong>: <a href="https://github.com/libaibuaidufu/scrapyd_web_log">https://github.com/libaibuaidufu/scrapyd_web_log</a><br><strong>注</strong>： 可以自己查看 一下 scrapydweb 配置文件 修改，和 scrapyd 配置文件修改</p>
+<p>参考：</p>
+<ol>
+<li><a href="https://github.com/my8100/scrapydweb">scrapydweb</a></li>
+<li><a href="https://github.com/my8100/logparser">logparser</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>代码来了</category>
+      </categories>
+      <tags>
+        <tag>scrapy</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -134,29 +228,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo 的基础使用</title>
-    <url>/post/hello-world.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<a id="more"></a>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-  </entry>
-  <entry>
     <title>hexo next主题 安装记录</title>
     <url>/post/install-next-all.html</url>
     <content><![CDATA[<p>最近无聊有想整点东西，想这写blog，就心血来潮又搞了hexo，想着这次一定要静下心来。</p>
@@ -205,36 +276,6 @@
       <tags>
         <tag>hexo</tag>
         <tag>next</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>scrapy + scrapyd + scrapydweb + logparser + docker分布式部署</title>
-    <url>/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html</url>
-    <content><![CDATA[<p>在工作中使用，特此在这记录一下，并写成docker文件，方便部署使用。</p>
-<a id="more"></a>
-
-<h5 id="1-构建-scrapyd-logparser"><a href="#1-构建-scrapyd-logparser" class="headerlink" title="1.构建 scrapyd_logparser"></a>1.构建 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapyd_logparser</span><br><span class="line">docker build -t scrapyd_logparser .</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-运行-scrapyd-logparser"><a href="#2-运行-scrapyd-logparser" class="headerlink" title="2.运行 scrapyd_logparser"></a>2.运行 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 6800:6800 --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># docker run -d -p 6800:6800 -v &#x2F;root&#x2F;scrapyd_logparser:&#x2F;code --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># 可以外联出文件 可以进行配置修改</span><br></pre></td></tr></table></figure>
-
-<h5 id="3-构建-scrapydweb"><a href="#3-构建-scrapydweb" class="headerlink" title="3.构建 scrapydweb"></a>3.构建 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapydweb</span><br><span class="line">docker build -t scrapydweb .</span><br></pre></td></tr></table></figure>
-
-<h5 id="4-运行-scrapydweb"><a href="#4-运行-scrapydweb" class="headerlink" title="4.运行 scrapydweb"></a>4.运行 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 5000:5000 -v &#x2F;root&#x2F;scrapydweb:&#x2F;code --name scrapydweb scrapydweb</span><br><span class="line"># 外链出文件 好修改配置 进行更新部署</span><br><span class="line"># 修改配置</span><br><span class="line">vim scrapydweb_settings_v10.py </span><br><span class="line"># 重启</span><br><span class="line">docker restart scrapydweb</span><br></pre></td></tr></table></figure>
-
-<h5 id="5-多机部署"><a href="#5-多机部署" class="headerlink" title="5.多机部署"></a>5.多机部署</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在其他机器中 部署 文件 执行 1，2 步</span><br><span class="line">同时在 scrapydweb 的配置文件 添加在 新主机的ip</span><br><span class="line"></span><br><span class="line"># 以下添加</span><br><span class="line">SCRAPYD_SERVERS &#x3D; [</span><br><span class="line">    &#39;192.168.5.131:6800&#39;,</span><br><span class="line">    &#39;192.168.5.131:6805&#39;,</span><br><span class="line">    # &#39;username:password@localhost:6801#group&#39;,</span><br><span class="line">    # (&#39;username&#39;, &#39;password&#39;, &#39;localhost&#39;, &#39;6801&#39;, &#39;group&#39;),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>源码</strong>: <a href="https://github.com/libaibuaidufu/scrapyd_web_log">https://github.com/libaibuaidufu/scrapyd_web_log</a><br><strong>注</strong>： 可以自己查看 一下 scrapydweb 配置文件 修改，和 scrapyd 配置文件修改</p>
-<p>参考：</p>
-<ol>
-<li><a href="https://github.com/my8100/scrapydweb">scrapydweb</a></li>
-<li><a href="https://github.com/my8100/logparser">logparser</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>代码来了</category>
-      </categories>
-      <tags>
-        <tag>scrapy</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
