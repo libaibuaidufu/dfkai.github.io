@@ -198,36 +198,6 @@
       </categories>
   </entry>
   <entry>
-    <title>scrapy + scrapyd + scrapydweb + logparser + docker分布式部署</title>
-    <url>/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html</url>
-    <content><![CDATA[<p>在工作中使用，特此在这记录一下，并写成docker文件，方便部署使用。</p>
-<a id="more"></a>
-
-<h5 id="1-构建-scrapyd-logparser"><a href="#1-构建-scrapyd-logparser" class="headerlink" title="1.构建 scrapyd_logparser"></a>1.构建 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapyd_logparser</span><br><span class="line">docker build -t scrapyd_logparser .</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-运行-scrapyd-logparser"><a href="#2-运行-scrapyd-logparser" class="headerlink" title="2.运行 scrapyd_logparser"></a>2.运行 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 6800:6800 --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># docker run -d -p 6800:6800 -v &#x2F;root&#x2F;scrapyd_logparser:&#x2F;code --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># 可以外联出文件 可以进行配置修改</span><br></pre></td></tr></table></figure>
-
-<h5 id="3-构建-scrapydweb"><a href="#3-构建-scrapydweb" class="headerlink" title="3.构建 scrapydweb"></a>3.构建 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapydweb</span><br><span class="line">docker build -t scrapydweb .</span><br></pre></td></tr></table></figure>
-
-<h5 id="4-运行-scrapydweb"><a href="#4-运行-scrapydweb" class="headerlink" title="4.运行 scrapydweb"></a>4.运行 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 5000:5000 -v &#x2F;root&#x2F;scrapydweb:&#x2F;code --name scrapydweb scrapydweb</span><br><span class="line"># 外链出文件 好修改配置 进行更新部署</span><br><span class="line"># 修改配置</span><br><span class="line">vim scrapydweb_settings_v10.py </span><br><span class="line"># 重启</span><br><span class="line">docker restart scrapydweb</span><br></pre></td></tr></table></figure>
-
-<h5 id="5-多机部署"><a href="#5-多机部署" class="headerlink" title="5.多机部署"></a>5.多机部署</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在其他机器中 部署 文件 执行 1，2 步</span><br><span class="line">同时在 scrapydweb 的配置文件 添加在 新主机的ip</span><br><span class="line"></span><br><span class="line"># 以下添加</span><br><span class="line">SCRAPYD_SERVERS &#x3D; [</span><br><span class="line">    &#39;192.168.5.131:6800&#39;,</span><br><span class="line">    &#39;192.168.5.131:6805&#39;,</span><br><span class="line">    # &#39;username:password@localhost:6801#group&#39;,</span><br><span class="line">    # (&#39;username&#39;, &#39;password&#39;, &#39;localhost&#39;, &#39;6801&#39;, &#39;group&#39;),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>源码</strong>: <a href="https://github.com/libaibuaidufu/scrapyd_web_log">https://github.com/libaibuaidufu/scrapyd_web_log</a><br><strong>注</strong>： 可以自己查看 一下 scrapydweb 配置文件 修改，和 scrapyd 配置文件修改</p>
-<p>参考：</p>
-<ol>
-<li><a href="https://github.com/my8100/scrapydweb">scrapydweb</a></li>
-<li><a href="https://github.com/my8100/logparser">logparser</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>代码来了</category>
-      </categories>
-      <tags>
-        <tag>scrapy</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next主题 安装记录</title>
     <url>/post/install-next-all.html</url>
     <content><![CDATA[<p>最近无聊有想整点东西，想这写blog，就心血来潮又搞了hexo，想着这次一定要静下心来。</p>
@@ -276,6 +246,36 @@
       <tags>
         <tag>hexo</tag>
         <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>scrapy + scrapyd + scrapydweb + logparser + docker分布式部署</title>
+    <url>/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html</url>
+    <content><![CDATA[<p>在工作中使用，特此在这记录一下，并写成docker文件，方便部署使用。</p>
+<a id="more"></a>
+
+<h5 id="1-构建-scrapyd-logparser"><a href="#1-构建-scrapyd-logparser" class="headerlink" title="1.构建 scrapyd_logparser"></a>1.构建 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapyd_logparser</span><br><span class="line">docker build -t scrapyd_logparser .</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-运行-scrapyd-logparser"><a href="#2-运行-scrapyd-logparser" class="headerlink" title="2.运行 scrapyd_logparser"></a>2.运行 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 6800:6800 --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># docker run -d -p 6800:6800 -v &#x2F;root&#x2F;scrapyd_logparser:&#x2F;code --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># 可以外联出文件 可以进行配置修改</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-构建-scrapydweb"><a href="#3-构建-scrapydweb" class="headerlink" title="3.构建 scrapydweb"></a>3.构建 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd scrapydweb</span><br><span class="line">docker build -t scrapydweb .</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-运行-scrapydweb"><a href="#4-运行-scrapydweb" class="headerlink" title="4.运行 scrapydweb"></a>4.运行 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d -p 5000:5000 -v &#x2F;root&#x2F;scrapydweb:&#x2F;code --name scrapydweb scrapydweb</span><br><span class="line"># 外链出文件 好修改配置 进行更新部署</span><br><span class="line"># 修改配置</span><br><span class="line">vim scrapydweb_settings_v10.py </span><br><span class="line"># 重启</span><br><span class="line">docker restart scrapydweb</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-多机部署"><a href="#5-多机部署" class="headerlink" title="5.多机部署"></a>5.多机部署</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在其他机器中 部署 文件 执行 1，2 步</span><br><span class="line">同时在 scrapydweb 的配置文件 添加在 新主机的ip</span><br><span class="line"></span><br><span class="line"># 以下添加</span><br><span class="line">SCRAPYD_SERVERS &#x3D; [</span><br><span class="line">    &#39;192.168.5.131:6800&#39;,</span><br><span class="line">    &#39;192.168.5.131:6805&#39;,</span><br><span class="line">    # &#39;username:password@localhost:6801#group&#39;,</span><br><span class="line">    # (&#39;username&#39;, &#39;password&#39;, &#39;localhost&#39;, &#39;6801&#39;, &#39;group&#39;),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>源码</strong>: <a href="https://github.com/libaibuaidufu/scrapyd_web_log">https://github.com/libaibuaidufu/scrapyd_web_log</a><br><strong>注</strong>： 可以自己查看 一下 scrapydweb 配置文件 修改，和 scrapyd 配置文件修改</p>
+<p>参考：</p>
+<ol>
+<li><a href="https://github.com/my8100/scrapydweb">scrapydweb</a></li>
+<li><a href="https://github.com/my8100/logparser">logparser</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>代码来了</category>
+      </categories>
+      <tags>
+        <tag>scrapy</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -329,6 +329,68 @@
       </categories>
       <tags>
         <tag>selenium</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wsl 定时任务 crontab权限</title>
+    <url>/post/wsl-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1-crontab%E6%9D%83%E9%99%90.html</url>
+    <content><![CDATA[<p>可能有一些乱,但是不影响整体思路。</p>
+<h3 id="安装-wsl"><a href="#安装-wsl" class="headerlink" title="安装 wsl"></a>安装 wsl</h3><p>首先在windows上 打开 <strong>启动或关闭windows功能</strong>  选择 <strong>适用于 Linux 的 windows 子系统</strong> 打勾</p>
+<p>然后取 windows应用市场 搜索 wsl ，下载你喜欢的一个 linux子系统</p>
+<p>我这边安装了一个 debian，一个ubuntu。</p>
+<p>如果你没有开启<strong>适用于 Linux 的 windows 子系统</strong> 是无法安装的。</p>
+<p><strong>记得一定要安装windows terminal 这个太提升体验了</strong></p>
+<a id="more"></a>
+
+<h3 id="配置linux子系统"><a href="#配置linux子系统" class="headerlink" title="配置linux子系统"></a>配置linux子系统</h3><p>进入 debian系统</p>
+<h4 id="挂载windows和linux的共享盘"><a href="#挂载windows和linux的共享盘" class="headerlink" title="挂载windows和linux的共享盘"></a>挂载windows和linux的共享盘</h4><p>可以先在linux子系统和windows之间建立一个共享盘</p>
+<p>挂载 windows D盘的wsl_linux 到 debian到 win10目录</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ln -s /mnt/d/wsl_linux ~/win10 </span><br></pre></td></tr></table></figure>
+
+<h4 id="换国内源"><a href="#换国内源" class="headerlink" title="换国内源"></a>换国内源</h4><p>清华源地址:<a href="https://mirrors.tuna.tsinghua.edu.cn/help/debian/">https://mirrors.tuna.tsinghua.edu.cn/help/debian/</a></p>
+<p><strong>这是debian10</strong></p>
+<p>在windows中 创建一个 sources.list ,同样也可以在linux下创建，看你喜欢</p>
+<p>把内容直接复制到sources.list 里面，因为无法拉去 https ，所以可以吧所有的https改为http</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;debian&#x2F; buster main contrib non-free</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;debian&#x2F; buster-updates main contrib non-free</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;debian&#x2F; buster-backports main contrib non-free</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;debian-security buster&#x2F;updates main contrib non-free</span><br></pre></td></tr></table></figure>
+
+<p>然后把 文件复制到 /etc/apt中</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line">sudo cp ~/win10/sources.list /etc/apt/sources.list</span><br><span class="line">sudo apt update</span><br><span class="line"><span class="comment">#安装 ca证书 就可以拉去 https</span></span><br><span class="line">sudo apt install apt-transport-https ca-certificates</span><br><span class="line"><span class="comment">#此时就可以修改所有http为 https了</span></span><br><span class="line"><span class="comment"># 然后在执行一次</span></span><br><span class="line">sudo apt update</span><br><span class="line"><span class="comment"># 安装一些我需要的软件</span></span><br><span class="line">sudo apt install crul wget vim -y</span><br></pre></td></tr></table></figure>
+
+<p>此时debian的系统就调试的差不多了。</p>
+<h3 id="设置定时任务-crontab-及其权限"><a href="#设置定时任务-crontab-及其权限" class="headerlink" title="设置定时任务 crontab 及其权限"></a>设置定时任务 crontab 及其权限</h3><p>设置定时任务 crontab  ，因为crontab定时任务的命令网上太多了一搜一大堆，我这里就不复制，粘贴了。</p>
+<h4 id="编辑定时任务"><a href="#编辑定时任务" class="headerlink" title="编辑定时任务"></a>编辑定时任务</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第一次 他需要让你选择打开使用的编辑器 选择 vim就好了 或者 选择自己熟悉的</span></span><br><span class="line">crontab -e</span><br><span class="line">0 21 * * * <span class="built_in">cd</span> /home/libai/fping-4.2/src/ &amp;&amp; sudo /bin/bash /home/libai/fping-4.2/src/cf.sh &gt;&gt; /var/<span class="built_in">log</span>/cf_log.log</span><br><span class="line"><span class="comment"># 查看</span></span><br><span class="line">crontab -l</span><br><span class="line"><span class="comment"># 重启 这样才会设置任务</span></span><br><span class="line">sudo service cron restart</span><br></pre></td></tr></table></figure>
+
+<p>我的这个任务是每天晚上九点 执行一次。</p>
+<p>因为执行命令需要root权限。我们需要设置执行我们这个命令时候，不需要输入密码。</p>
+<h4 id="设置-visudo-，定时任务权限"><a href="#设置-visudo-，定时任务权限" class="headerlink" title="设置 visudo ，定时任务权限"></a>设置 visudo ，定时任务权限</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打开 visudo</span></span><br><span class="line">sudo visudo</span><br><span class="line"><span class="comment"># 在末尾添加 这个用的是nano编辑器</span></span><br><span class="line">%sudo ALL=NOPASSWD: /etc/init.d/cron start</span><br><span class="line">%sudo ALL=NOPASSWD: /bin/bash /home/libai/fping-4.2/src/cf.sh</span><br><span class="line"><span class="comment"># 这里的命令要和上面crontab -e 命令保持一致 路径也一样 不然还是要输入密码的</span></span><br><span class="line"><span class="comment"># 路径 和 目录写清楚 可从下面参考里面看详细的visudo命令解释</span></span><br><span class="line"><span class="comment"># who     where=(whom)    commands</span></span><br><span class="line"><span class="comment"># 用户    主机=（以谁的身份） commands</span></span><br><span class="line"><span class="comment"># nano 命令</span></span><br><span class="line"><span class="comment"># 保存</span></span><br><span class="line">Ctrl+O 然后回车一下就可以了</span><br><span class="line"><span class="comment"># 推出</span></span><br><span class="line">Ctrl+X</span><br></pre></td></tr></table></figure>
+
+<p>此时定时任务就可以起飞了，同时把任务日志保存一下，看看是不是真的运行了。同时运行有什么问题，也可以处理。** &gt;&gt; /var/log/cf_log.log** 注意创建此文件同时注意权限 <strong>chmod 777 cf_log.log</strong></p>
+<h3 id="关闭linux子系统，windows开机启动"><a href="#关闭linux子系统，windows开机启动" class="headerlink" title="关闭linux子系统，windows开机启动"></a>关闭linux子系统，windows开机启动</h3><p>但是这样当我们关闭windows子系统的时候，整个就关闭了，就没有什么定时任务了，因此我们要创建一个windows的开启任务。</p>
+<p>在windows下：</p>
+<p>win+R 输入 shell:startup 打开目录</p>
+<p>新建一个 快捷方式</p>
+<p>输入 <strong>C:\Windows\System32\wsl.exe sudo /etc/init.d/cron start</strong> </p>
+<p>你发现这个命令和我们上面visudo的添加第一个命令一致，但是我开机启动时，还是要让我输入密码。。。</p>
+<p><strong>需要输入密码是因为wsl默认启动我的ubuntu，修改默认启动顺序，如果你只有一个系统就不会出现这个情况或者你用的系统是你第一个安装应该也是没有问题的</strong></p>
+<h4 id="查看、修改默认系统"><a href="#查看、修改默认系统" class="headerlink" title="查看、修改默认系统"></a>查看、修改默认系统</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\Users\dfk&gt; wslconfig /list</span><br><span class="line">适用于 Linux 的 Windows 子系统:</span><br><span class="line">Ubuntu<span class="literal">-20</span>.<span class="number">04</span> (默认)</span><br><span class="line">Debian</span><br><span class="line"><span class="built_in">PS</span> C:\Users\dfk&gt; wslconfig /s Debian <span class="comment"># 修改默认</span></span><br><span class="line"><span class="built_in">PS</span> C:\Users\dfk&gt; wsl <span class="comment"># 进入系统</span></span><br><span class="line">libai@DESKTOP<span class="literal">-3SJEOBV</span>:/mnt/c/Users/dfk<span class="variable">$</span> uname <span class="literal">-a</span> <span class="comment"># 查看是否是 debian</span></span><br><span class="line">Linux DESKTOP<span class="literal">-3SJEOBV</span> <span class="number">4.4</span>.<span class="number">0</span><span class="literal">-18362</span><span class="literal">-Microsoft</span> <span class="comment">#836-Microsoft Mon May 05 16:04:00 PST 2020 x86_64 GNU/Linux</span></span><br><span class="line">libai@DESKTOP<span class="literal">-3SJEOBV</span>:/mnt/c/Users/dfk<span class="variable">$</span> <span class="built_in">cat</span> /etc/issue</span><br><span class="line">Debian GNU/Linux <span class="number">10</span> \n \l</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>命令帮助：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">对 Windows 上的 Linux 子系统进行操作管理</span><br><span class="line"></span><br><span class="line">用途：</span><br><span class="line">    /l, /list [/all]</span><br><span class="line">        列出已注册的分发版。</span><br><span class="line">        /all - 有选择地列出所有分发版，包括</span><br><span class="line">               当前正在安装或卸载的分发版。</span><br><span class="line"></span><br><span class="line">    /s, /setdefault &lt;DistributionName&gt;</span><br><span class="line">        将该分发版设为默认。</span><br><span class="line"></span><br><span class="line">    /t, /terminate &lt;DistributionName&gt;</span><br><span class="line">        终止分发。</span><br><span class="line"></span><br><span class="line">    /u, /unregister &lt;DistributionName&gt;</span><br><span class="line">        取消分发版注册。</span><br><span class="line"></span><br><span class="line">    /upgrade &lt;DistributionName&gt;</span><br><span class="line">        将分发版升级至 WslFs 文件系统格式。</span><br></pre></td></tr></table></figure>
+
+<h4 id="最后再次执行-快捷方式-看看-要不要密码"><a href="#最后再次执行-快捷方式-看看-要不要密码" class="headerlink" title="最后再次执行 快捷方式 看看 要不要密码"></a>最后再次执行 快捷方式 看看 要不要密码</h4><p>不要了 完美了。。。。。。</p>
+<h4 id="查看windows是否开启"><a href="#查看windows是否开启" class="headerlink" title="查看windows是否开启"></a>查看windows是否开启</h4><p>查看 任务管理系统，里面有没有一个cron的进程，有就是成功了的。</p>
+<p>参考：</p>
+<ol>
+<li><a href="https://www.jianshu.com/p/fff3ccc3e04e">sudo和它的编辑工具visudo</a></li>
+<li><a href="%5Bhttps://naizi.moe/2020/01/24/wsl-crontab/#%E5%AE%89%E8%A3%85WSL%5D(https://naizi.moe/2020/01/24/wsl-crontab/#%E5%AE%89%E8%A3%85WSL)">Windows使用WSL配置crontab定时任务</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>wsl</category>
+      </categories>
+      <tags>
+        <tag>wsl</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
