@@ -23,21 +23,20 @@
     var CONFIG = {"hostname":"libaibuaidufu.club","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"order":-1},"valine":{"order":-2}}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
-  <meta name="description" content="在工作中使用，特此在这记录一下，并写成docker文件，方便部署使用。">
+  <meta name="description" content="工具地址：  kstools https:&#x2F;&#x2F;github.com&#x2F;fourbrother&#x2F;kstools 52爱盘工具 https:&#x2F;&#x2F;down.52pojie.cn&#x2F;Tools&#x2F;Android_Tools&#x2F; AndroidKiller (下面同理都在爱盘里面有) apkIDE apktools dex2jar jadx jd-gui">
 <meta property="og:type" content="article">
-<meta property="og:title" content="scrapy + scrapyd + scrapydweb + logparser + docker分布式部署">
-<meta property="og:url" content="https://libaibuaidufu.club/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html">
+<meta property="og:title" content="Android逆向流程">
+<meta property="og:url" content="https://libaibuaidufu.club/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html">
 <meta property="og:site_name" content="libaibuaidufu">
-<meta property="og:description" content="在工作中使用，特此在这记录一下，并写成docker文件，方便部署使用。">
+<meta property="og:description" content="工具地址：  kstools https:&#x2F;&#x2F;github.com&#x2F;fourbrother&#x2F;kstools 52爱盘工具 https:&#x2F;&#x2F;down.52pojie.cn&#x2F;Tools&#x2F;Android_Tools&#x2F; AndroidKiller (下面同理都在爱盘里面有) apkIDE apktools dex2jar jadx jd-gui">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-08-07T08:28:17.000Z">
-<meta property="article:modified_time" content="2020-08-07T08:34:00.938Z">
+<meta property="article:published_time" content="2020-09-03T02:38:14.000Z">
+<meta property="article:modified_time" content="2020-09-03T02:40:07.427Z">
 <meta property="article:author" content="libaibuaidufu">
-<meta property="article:tag" content="scrapy">
-<meta property="article:tag" content="docker">
+<meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://libaibuaidufu.club/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html">
+<link rel="canonical" href="https://libaibuaidufu.club/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html">
 
 
 <script data-pjax class="page-configurations">
@@ -50,7 +49,7 @@
   };
 </script>
 
-  <title>scrapy + scrapyd + scrapydweb + logparser + docker分布式部署 | libaibuaidufu</title>
+  <title>Android逆向流程 | libaibuaidufu</title>
   
 
 
@@ -226,7 +225,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%9E%84%E5%BB%BA-scrapyd-logparser"><span class="nav-number">1.</span> <span class="nav-text">1.构建 scrapyd_logparser</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E8%BF%90%E8%A1%8C-scrapyd-logparser"><span class="nav-number">2.</span> <span class="nav-text">2.运行 scrapyd_logparser</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E6%9E%84%E5%BB%BA-scrapydweb"><span class="nav-number">3.</span> <span class="nav-text">3.构建 scrapydweb</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E8%BF%90%E8%A1%8C-scrapydweb"><span class="nav-number">4.</span> <span class="nav-text">4.运行 scrapydweb</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-%E5%A4%9A%E6%9C%BA%E9%83%A8%E7%BD%B2"><span class="nav-number">5.</span> <span class="nav-text">5.多机部署</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#kstools-%E7%88%86%E7%A0%B4-%E7%AD%BE%E5%90%8D%E6%A0%A1%E9%AA%8C"><span class="nav-number">1.</span> <span class="nav-text">kstools 爆破 签名校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AndroidKiller-%E9%9B%86%E6%88%90%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">AndroidKiller 集成软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E7%8B%AC%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="nav-number">3.</span> <span class="nav-text">单独使用工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#apktools-%E8%B5%84%E6%BA%90%E7%BC%96%E8%AF%91"><span class="nav-number">3.1.</span> <span class="nav-text">apktools 资源编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dex2jar-%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91-%E6%88%96%E8%80%85-jadx-%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91"><span class="nav-number">3.2.</span> <span class="nav-text">dex2jar 代码编译 或者 jadx 代码编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jd-gui-%E6%9F%A5%E7%9C%8Bjar%E5%8C%85"><span class="nav-number">3.3.</span> <span class="nav-text">jd-gui 查看jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85%E7%AD%BE%E5%90%8D"><span class="nav-number">3.4.</span> <span class="nav-text">重新打包签名</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%93%E5%8C%85"><span class="nav-number">3.4.1.</span> <span class="nav-text">打包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E6%88%90keystore%E8%AF%81%E4%B9%A6"><span class="nav-number">3.4.2.</span> <span class="nav-text">生成keystore证书</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AD%BE%E5%90%8D"><span class="nav-number">3.4.3.</span> <span class="nav-text">签名</span></a></li></ol></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -302,7 +301,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://libaibuaidufu.club/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html">
+    <link itemprop="mainEntityOfPage" href="https://libaibuaidufu.club/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -317,7 +316,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          scrapy + scrapyd + scrapydweb + logparser + docker分布式部署
+          Android逆向流程
         </h1>
 
         <div class="post-meta">
@@ -328,7 +327,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-08-07 16:28:17 / 修改时间：16:34:00" itemprop="dateCreated datePublished" datetime="2020-08-07T16:28:17+08:00">2020-08-07</time>
+              <time title="创建时间：2020-09-03 10:38:14 / 修改时间：10:40:07" itemprop="dateCreated datePublished" datetime="2020-09-03T10:38:14+08:00">2020-09-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -336,12 +335,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%A3%E7%A0%81%E6%9D%A5%E4%BA%86/" itemprop="url" rel="index"><span itemprop="name">代码来了</span></a>
+                  <a href="/categories/Android%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">Android逆向</span></a>
                 </span>
             </span>
 
           
-            <span id="/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html" class="post-meta-item leancloud_visitors" data-flag-title="scrapy + scrapyd + scrapydweb + logparser + docker分布式部署" title="阅读次数">
+            <span id="/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html" class="post-meta-item leancloud_visitors" data-flag-title="Android逆向流程" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -356,8 +355,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/scrapy-scrapyd-scrapydweb-logparser-docker分布式部署.html" itemprop="commentCount"></span>
+    <a title="disqus" href="/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/安卓逆向流程.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -370,8 +369,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html" itemprop="commentCount"></span>
+    <a title="valine" href="/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -381,14 +380,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>943</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -398,23 +397,125 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>在工作中使用，特此在这记录一下，并写成docker文件，方便部署使用。</p>
+        <p>工具地址：</p>
+<ol>
+<li>kstools <a target="_blank" rel="noopener" href="https://github.com/fourbrother/kstools">https://github.com/fourbrother/kstools</a></li>
+<li>52爱盘工具 <a target="_blank" rel="noopener" href="https://down.52pojie.cn/Tools/Android_Tools/">https://down.52pojie.cn/Tools/Android_Tools/</a></li>
+<li>AndroidKiller (下面同理都在爱盘里面有)</li>
+<li>apkIDE</li>
+<li>apktools</li>
+<li>dex2jar</li>
+<li>jadx</li>
+<li>jd-gui</li>
+</ol>
 <a id="more"></a>
 
-<h5 id="1-构建-scrapyd-logparser"><a href="#1-构建-scrapyd-logparser" class="headerlink" title="1.构建 scrapyd_logparser"></a>1.构建 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd scrapyd_logparser</span><br><span class="line">docker build -t scrapyd_logparser .</span><br></pre></td></tr></table></figure>
+<h3 id="kstools-爆破-签名校验"><a href="#kstools-爆破-签名校验" class="headerlink" title="kstools 爆破 签名校验"></a>kstools 爆破 签名校验</h3><p>有一些程序有签名的校验，当你修改完，打包的时候后，可以安装，但是打开闪退，或者弹出提示框，大部分就是有签名校验。</p>
+<p>下载kstools工具，没有加固的就使用kstools.bat,直接搞定。注意appt的配置，我是用的apkIDE里面的appt。</p>
+<h3 id="AndroidKiller-集成软件"><a href="#AndroidKiller-集成软件" class="headerlink" title="AndroidKiller 集成软件"></a>AndroidKiller 集成软件</h3><p>AndroidKiller  集成了常用的软件，配上可视化操作，十分好上手，就是里面的插件有点久了，需要自己手动替换为爱盘里面的最新版插件。</p>
+<ol>
+<li>配置java环境，配置最新版的apktools.</li>
+<li>把爆破签名后生成的apk，拖进去，可自己动反编译。</li>
+<li>如果未修改签名，有一些app无法编译成功，会在编译死，需要关闭再次打开才可以，最好先爆破一下</li>
+<li>修改smail文件，保存</li>
+<li>编译，然后连接手机，安装</li>
+<li>测试是否可用</li>
+</ol>
+<h3 id="单独使用工具"><a href="#单独使用工具" class="headerlink" title="单独使用工具"></a>单独使用工具</h3><h4 id="apktools-资源编译"><a href="#apktools-资源编译" class="headerlink" title="apktools 资源编译"></a>apktools 资源编译</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool_2.3.1.jar d -f KeyValueTest.apk -o KeyValueTest</span><br><span class="line">参数说明：</span><br><span class="line">-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。</span><br><span class="line">-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。</span><br><span class="line">-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。</span><br><span class="line">-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）</span><br></pre></td></tr></table></figure>
 
-<h5 id="2-运行-scrapyd-logparser"><a href="#2-运行-scrapyd-logparser" class="headerlink" title="2.运行 scrapyd_logparser"></a>2.运行 scrapyd_logparser</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 6800:6800 --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># docker run -d -p 6800:6800 -v &#x2F;root&#x2F;scrapyd_logparser:&#x2F;code --name scrapyd_1 scrapyd_logparser</span><br><span class="line"># 可以外联出文件 可以进行配置修改</span><br></pre></td></tr></table></figure>
+<h4 id="dex2jar-代码编译-或者-jadx-代码编译"><a href="#dex2jar-代码编译-或者-jadx-代码编译" class="headerlink" title="dex2jar 代码编译 或者 jadx 代码编译"></a>dex2jar 代码编译 或者 jadx 代码编译</h4><p><strong>dex2jar</strong></p>
+<p>将apk文件修改后缀为zip然后解压或者直接解压，找到<strong>classes.dex</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d2j-dex2jar.bat classes.dex</span><br></pre></td></tr></table></figure>
 
-<h5 id="3-构建-scrapydweb"><a href="#3-构建-scrapydweb" class="headerlink" title="3.构建 scrapydweb"></a>3.构建 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd scrapydweb</span><br><span class="line">docker build -t scrapydweb .</span><br></pre></td></tr></table></figure>
+<p>生成了classes-dex2jar.jar 一个jar包。</p>
+<p><strong>jadx</strong></p>
+<p>jadx更加方便快捷，打开bin文件中的jadx-gui.bat然后直接选择APK即可,虽然jadx也可反编译资源文件，但有时候并不准确</p>
+<h4 id="jd-gui-查看jar包"><a href="#jd-gui-查看jar包" class="headerlink" title="jd-gui 查看jar包"></a>jd-gui 查看jar包</h4><p><strong>启动 jd-gui</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar jd-gui.jar</span><br></pre></td></tr></table></figure>
 
-<h5 id="4-运行-scrapydweb"><a href="#4-运行-scrapydweb" class="headerlink" title="4.运行 scrapydweb"></a>4.运行 scrapydweb</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 5000:5000 -v &#x2F;root&#x2F;scrapydweb:&#x2F;code --name scrapydweb scrapydweb</span><br><span class="line"># 外链出文件 好修改配置 进行更新部署</span><br><span class="line"># 修改配置</span><br><span class="line">vim scrapydweb_settings_v10.py </span><br><span class="line"># 重启</span><br><span class="line">docker restart scrapydweb</span><br></pre></td></tr></table></figure>
+<p><strong>把生成的classes-dex2jar.jar 拖进去，就可以查看源码了，但是不能修改，可以帮助理解</strong></p>
+<h4 id="重新打包签名"><a href="#重新打包签名" class="headerlink" title="重新打包签名"></a>重新打包签名</h4><h5 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool_2.3.1.jar b KeyValueTest</span><br></pre></td></tr></table></figure>
 
-<h5 id="5-多机部署"><a href="#5-多机部署" class="headerlink" title="5.多机部署"></a>5.多机部署</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">在其他机器中 部署 文件 执行 1，2 步</span><br><span class="line">同时在 scrapydweb 的配置文件 添加在 新主机的ip</span><br><span class="line"></span><br><span class="line"># 以下添加</span><br><span class="line">SCRAPYD_SERVERS &#x3D; [</span><br><span class="line">    &#39;192.168.5.131:6800&#39;,</span><br><span class="line">    &#39;192.168.5.131:6805&#39;,</span><br><span class="line">    # &#39;username:password@localhost:6801#group&#39;,</span><br><span class="line">    # (&#39;username&#39;, &#39;password&#39;, &#39;localhost&#39;, &#39;6801&#39;, &#39;group&#39;),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>源码</strong>: <a target="_blank" rel="noopener" href="https://github.com/libaibuaidufu/scrapyd_web_log">https://github.com/libaibuaidufu/scrapyd_web_log</a><br><strong>注</strong>： 可以自己查看 一下 scrapydweb 配置文件 修改，和 scrapyd 配置文件修改</p>
+<p>目录下会生成build和dist目录,dist 就有新的apk</p>
+<h5 id="生成keystore证书"><a href="#生成keystore证书" class="headerlink" title="生成keystore证书"></a>生成keystore证书</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -v -keystore myApp.keystore -<span class="built_in">alias</span> myApp.keystore -keyalg RSA -validity 30000</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>dec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keytool</td>
+<td>工具名称（固定写法）</td>
+</tr>
+<tr>
+<td>)-genkey</td>
+<td>执行的是生成数字证书操作（固定写法）</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>打印生成证书的详细信息</td>
+</tr>
+<tr>
+<td>-keystore myApp.keystore</td>
+<td>生成的证书的文件名为”myApp.keystore”(根据需求，设置你的证书名)</td>
+</tr>
+<tr>
+<td>alias myApp.keystore</td>
+<td>证书的别名为”myApp.keystore”。(一般和上面的文件名相同，可以不同，但要记好，签名时会用**(A)**)</td>
+</tr>
+<tr>
+<td>-keyalg RSA</td>
+<td>生成密钥文件采用的算法为RSA(固定写法)</td>
+</tr>
+<tr>
+<td>-validity 3000</td>
+<td>该数字证书的有效期为30000天，30000天之后该证书将失效</td>
+</tr>
+</tbody></table>
+<h5 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jarsigner -verbose -keystore myApp.keystore -signedjar android-release-signed.apk android-release-unsigned.apk myApp.keystore</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>dec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>jarsigner</td>
+<td>工具称名（固定写法）</td>
+</tr>
+<tr>
+<td>-verbose</td>
+<td>显示出签名详细信息</td>
+</tr>
+<tr>
+<td>-keystore myApp.keystore myApp.keystore</td>
+<td>要使用的签名证书文件</td>
+</tr>
+<tr>
+<td>-signedjar android-release-signed.apk</td>
+<td>签名后的文件名</td>
+</tr>
+<tr>
+<td>android-release-unsigned.apk</td>
+<td>要签名的文件</td>
+</tr>
+<tr>
+<td>myApp.keystore</td>
+<td>别名，即(A)步中的别名</td>
+</tr>
+</tbody></table>
+<p>我这个还是比较简单的流程，还有深入的smail学习，因为逆向主要还是修改smail语句。或者大佬的修改so文件，还有hook，去签名校验，还有去壳等。</p>
+<p>路还是很长的。</p>
+<p>例如：smail，baksmail这个软件我还没有使用到。</p>
 <p>参考：</p>
 <ol>
-<li><a target="_blank" rel="noopener" href="https://github.com/my8100/scrapydweb">scrapydweb</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/my8100/logparser">logparser</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoshen666/p/11008255.html">https://www.cnblogs.com/xiaoshen666/p/11008255.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weitao_666/article/details/97615961">https://blog.csdn.net/weitao_666/article/details/97615961</a></li>
 </ol>
 
     </div>
@@ -444,8 +545,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/scrapy/" rel="tag"># scrapy</a>
-              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
           </div>
 
         
@@ -454,13 +554,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/post/scrapy-scrapyd-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8.html" rel="prev" title="scrapy+scrapyd 部署使用">
-      <i class="fa fa-chevron-left"></i> scrapy+scrapyd 部署使用
+    <a href="/post/cloudflare-%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9-dns.html" rel="prev" title="cloudflare 动态修改 dns">
+      <i class="fa fa-chevron-left"></i> cloudflare 动态修改 dns
     </a></div>
-      <div class="post-nav-item">
-    <a href="/post/flask-rbac-%E8%AE%BE%E8%AE%A1.html" rel="next" title="flask rbac 设计">
-      flask rbac 设计 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -644,9 +741,9 @@ document.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "https://libaibuaidufu.club/post/scrapy-scrapyd-scrapydweb-logparser-docker%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html";
-    this.page.identifier = "post/scrapy-scrapyd-scrapydweb-logparser-docker分布式部署.html";
-    this.page.title = "scrapy + scrapyd + scrapydweb + logparser + docker分布式部署";
+    this.page.url = "https://libaibuaidufu.club/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html";
+    this.page.identifier = "post/安卓逆向流程.html";
+    this.page.title = "Android逆向流程";
     };
   NexT.utils.loadComments('#disqus_thread', () => {
     if (window.DISQUS) {
