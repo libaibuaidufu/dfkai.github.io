@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://libaibuaidufu.club/post/gitlab-%E7%94%9F%E4%BA%A7%E5%AE%89%E5%85%A8%E4%BA%8B%E6%95%85%E8%AE%B0%E5%BD%95.html</loc>
+    
+    <lastmod>2020-09-03</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://libaibuaidufu.club/post/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B.html</loc>
     
     <lastmod>2020-09-03</lastmod>
@@ -137,20 +144,6 @@
 
   
   <url>
-    <loc>https://libaibuaidufu.club/tags/cloudflare/</loc>
-    <lastmod>2020-09-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://libaibuaidufu.club/tags/dns/</loc>
-    <lastmod>2020-09-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://libaibuaidufu.club/tags/hexo/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
@@ -159,6 +152,20 @@
   
   <url>
     <loc>https://libaibuaidufu.club/tags/next/</loc>
+    <lastmod>2020-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://libaibuaidufu.club/tags/cloudflare/</loc>
+    <lastmod>2020-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://libaibuaidufu.club/tags/dns/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -179,7 +186,7 @@
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/tags/grpc/</loc>
+    <loc>https://libaibuaidufu.club/tags/gitlab/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -193,21 +200,7 @@
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/tags/selenium/</loc>
-    <lastmod>2020-09-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://libaibuaidufu.club/tags/wsl/</loc>
-    <lastmod>2020-09-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://libaibuaidufu.club/tags/linux/</loc>
+    <loc>https://libaibuaidufu.club/tags/grpc/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -228,14 +221,35 @@
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/tags/Android/</loc>
+    <loc>https://libaibuaidufu.club/tags/docker/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/tags/docker/</loc>
+    <loc>https://libaibuaidufu.club/tags/wsl/</loc>
+    <lastmod>2020-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://libaibuaidufu.club/tags/linux/</loc>
+    <lastmod>2020-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://libaibuaidufu.club/tags/selenium/</loc>
+    <lastmod>2020-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://libaibuaidufu.club/tags/Android/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -244,14 +258,14 @@
 
   
   <url>
-    <loc>https://libaibuaidufu.club/categories/%E6%95%99%E7%A8%8B/</loc>
+    <loc>https://libaibuaidufu.club/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</loc>
+    <loc>https://libaibuaidufu.club/categories/%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -266,6 +280,13 @@
   
   <url>
     <loc>https://libaibuaidufu.club/categories/flask/</loc>
+    <lastmod>2020-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://libaibuaidufu.club/categories/%E7%94%9F%E4%BA%A7%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2020-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
