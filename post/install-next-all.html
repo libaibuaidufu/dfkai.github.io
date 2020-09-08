@@ -360,10 +360,10 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Disqus：</span>
+      <span class="post-meta-item-text">Valine：</span>
     
-    <a title="disqus" href="/post/install-next-all.html#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/install-next-all.html" itemprop="commentCount"></span>
+    <a title="valine" href="/post/install-next-all.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/post/install-next-all.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -374,10 +374,10 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine：</span>
+      <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="valine" href="/post/install-next-all.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/post/install-next-all.html" itemprop="commentCount"></span>
+    <a title="disqus" href="/post/install-next-all.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/install-next-all.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -564,7 +564,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">47k</span>
+    <span title="站点总字数">48k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
@@ -659,6 +659,19 @@ document.addEventListener('pjax:success', () => {
 
   
 
+
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"gCNyW4RIETLbBYbENmjSSC8M-gzGzoHsz","appKey":"ECydfnAcQ3LpBHvVtKHLU6lw","placeholder":"欢迎畅所欲言","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":true,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
 <script>
   function loadCount() {
     var d = document, s = d.createElement('script');
@@ -688,19 +701,6 @@ document.addEventListener('pjax:success', () => {
       (d.head || d.body).appendChild(s);
     }
   });
-</script>
-
-
-<script>
-NexT.utils.loadComments('#valine-comments', () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
-    new Valine(Object.assign({
-      el  : '#valine-comments',
-      path: location.pathname,
-    }, {"enable":true,"appId":"gCNyW4RIETLbBYbENmjSSC8M-gzGzoHsz","appKey":"ECydfnAcQ3LpBHvVtKHLU6lw","placeholder":"欢迎畅所欲言","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":true,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
-    ));
-  }, window.Valine);
-});
 </script>
 
     </div>
