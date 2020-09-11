@@ -242,6 +242,13 @@
   </url>
   
   <url>
+    <loc>https://libaibuaidufu.club/tags/Android/</loc>
+    <lastmod>2020-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://libaibuaidufu.club/tags/wsl/</loc>
     <lastmod>2020-09-11</lastmod>
     <changefreq>daily</changefreq>
@@ -250,13 +257,6 @@
   
   <url>
     <loc>https://libaibuaidufu.club/tags/linux/</loc>
-    <lastmod>2020-09-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://libaibuaidufu.club/tags/Android/</loc>
     <lastmod>2020-09-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -307,14 +307,14 @@
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/categories/wsl/</loc>
+    <loc>https://libaibuaidufu.club/categories/Android%E9%80%86%E5%90%91/</loc>
     <lastmod>2020-09-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://libaibuaidufu.club/categories/Android%E9%80%86%E5%90%91/</loc>
+    <loc>https://libaibuaidufu.club/categories/wsl/</loc>
     <lastmod>2020-09-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
